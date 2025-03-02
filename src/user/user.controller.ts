@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller('user')
+@Controller('users') // 엔드포인트는 복수로 하기기
 @UseInterceptors(ClassSerializerInterceptor) // 추가 : 해싱처리하면서 @Exclude의 속성이 적용되지않고 비밀번호가 응답에 노출되는 문제가 있었음. 필터링역할을 하는 도구를 추가함
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -14,12 +14,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
+  @Get('/me/:id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
-  @Post()
+  @Post('/join')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
